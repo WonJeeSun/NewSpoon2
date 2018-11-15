@@ -6,6 +6,7 @@ public class newsBean implements Serializable {
     private String title;
     private String urlToImage;
     private String content;
+    private String url;
 
     public String getContent() {
         return content;
@@ -30,5 +31,11 @@ public class newsBean implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) { this.title = url;}
 
 }

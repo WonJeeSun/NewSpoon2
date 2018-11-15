@@ -70,7 +70,7 @@ public class newsKoreanFragment extends Fragment {
 
     public void getNews() {
         // Instantiate the RequestQueue.
-        String url ="https://newsapi.org/v2/top-headlines?country=kr&apiKey=60f0e86f5fbe459e91fa85510f6feaff";
+        String url ="https://www.googleapis.com/customsearch/v1?key=AIzaSyBb3wLexTbAqMdRB0JJw7ajcPE8555m-o4&cx=006483914068273192856:_qesssnwq6m&q=블록체인";
 
 // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -84,7 +84,7 @@ public class newsKoreanFragment extends Fragment {
 
                             JSONObject jsonObj =  new JSONObject(response);
 
-                            JSONArray arrayArticles = jsonObj.getJSONArray("articles"); //뉴스 목록들 받아옴
+                            JSONArray arrayArticles = jsonObj.getJSONArray("items"); //뉴스 목록들 받아옴
 
                             //response ->> NewsData Class 분류
                             List<newsBean> news = new ArrayList<>();
@@ -96,8 +96,16 @@ public class newsKoreanFragment extends Fragment {
 
                                 newsBean newsBean = new newsBean();
                                 newsBean.setTitle(obj.getString("title"));
-                                newsBean.setUrlToImage(obj.getString("urlToImage"));
-                                newsBean.setContent(obj.getString("description"));
+                                Log.d("ENews", newsBean.getTitle());
+                                JSONObject pageObj = obj.getJSONObject("pagemap");
+                                Log.d("ENews", pageObj.toString());
+                                JSONArray arrayMet = pageObj.getJSONArray("metatags");
+                                Log.d("ENews", arrayMet.toString());
+                                JSONObject objMet = arrayMet.getJSONObject(0);
+                                Log.d("ENews", objMet.toString());
+                                newsBean.setUrlToImage(objMet.getString("og:image"));
+                                Log.d("ENews",newsBean.getUrlToImage());
+                                newsBean.setContent(objMet.getString("og:description"));
 
                                 news.add(newsBean);
                             }
